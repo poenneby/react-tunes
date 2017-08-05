@@ -1,19 +1,22 @@
 import React, { Component } from 'react';
+import {loadSounds, playSound} from './bufferUtil';
 import './App.css';
 
 class App extends Component {
 
   componentDidMount() {
     const context = new AudioContext();
-    fetch('/sounds/kick.wav')
-      .then(response => response.arrayBuffer())
-      .then(arrayBuffer => context.decodeAudioData(arrayBuffer))
-      .then(audioBuffer => {
-        const source = context.createBufferSource();
-        source.buffer = audioBuffer;
-        source.connect(context.destination);
-        source.start();
-      });
+    loadSounds(context, this, {
+      kick : '/sounds/kick.wav',
+      clap : '/sounds/clap.wav'
+    }, () => {
+      playSound(context, this.kick, 0);
+      playSound(context, this.kick, 1);
+      playSound(context, this.clap, 1);
+      playSound(context, this.kick, 2);
+      playSound(context, this.kick, 3);
+      playSound(context, this.clap, 3);
+    });
   }
 
   render() {
