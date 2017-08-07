@@ -6,16 +6,16 @@ class App extends Component {
 
   componentDidMount() {
     const context = new AudioContext();
-    loadSounds(context, this, {
+    loadSounds(context, {
       kick : '/sounds/kick.wav',
       clap : '/sounds/clap.wav'
-    }, () => {
-      playSound(context, this.kick, 0);
-      playSound(context, this.kick, 1);
-      playSound(context, this.clap, 1);
-      playSound(context, this.kick, 2);
-      playSound(context, this.kick, 3);
-      playSound(context, this.clap, 3);
+    }).then((buffers) => {
+      playSound(context, buffers.kick, 0);
+      playSound(context, buffers.kick, 1);
+      playSound(context, buffers.clap, 1);
+      playSound(context, buffers.kick, 2);
+      playSound(context, buffers.kick, 3);
+      playSound(context, buffers.clap, 3);
     });
   }
 

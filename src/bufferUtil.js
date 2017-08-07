@@ -1,30 +1,28 @@
 export function playSound(audioContext, buffer, time) {
-  var source = audioContext.createBufferSource();
+  const source = audioContext.createBufferSource();
   source.buffer = buffer;
   source.connect(audioContext.destination);
   source.start(time);
 }
 
-export function loadSounds(audioContext, obj, soundMap, callback) {
-  var names = [];
-  var paths = [];
-  for (var name in soundMap) {
-    var path = soundMap[name];
-    names.push(name);
-    paths.push(path);
-  }
-  const bufferLoader = new BufferLoader(audioContext, paths, (bufferList) => {
-    for (var i = 0; i < bufferList.length; i++) {
-      var buffer = bufferList[i];
-      var name = names[i];
-      obj[name] = buffer;
+export function loadSounds(audioContext, soundMap, callback) {
+  return new Promise((resolve, reject) => {
+    const names = [];
+    const paths = [];
+    for (let name in soundMap) {
+      const path = soundMap[name];
+      names.push(name);
+      paths.push(path);
     }
-    if (callback) {
-      // TODO: Pass an object with buffers back to caller, promisify it
-      callback();
-    }
+    const bufferLoader = new BufferLoader(audioContext, paths, (bufferList) => {
+      const buffers = [];
+      bufferList.forEach((buffer, i) => {
+        buffers[names[i]] = buffer;
+      });
+      resolve(buffers);
+    });
+    bufferLoader.load();
   });
-  bufferLoader.load();
 }
 
 
@@ -49,8 +47,6 @@ class BufferLoader {
   }
 
   load() {
-    for (var i = 0; i < this.urlList.length; ++i) {
-      this.loadBuffer(this.urlList[i], i);
-    }
+    this.urlList.map((url, i) => this.loadBuffer(url, i));
   }
 }
