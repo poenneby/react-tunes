@@ -5,7 +5,7 @@ import './App.css';
 class Kick extends Component {
 
   componentWillReceiveProps(nextProps) {
-    nextProps.playSound(nextProps.buffers.kick, 0);
+    nextProps.playSound(nextProps.buffers.kick, nextProps.startTime);
   }
 
   render() {
@@ -16,11 +16,31 @@ class Kick extends Component {
 class Clap extends Component {
 
   componentWillReceiveProps(nextProps) {
-    nextProps.playSound(nextProps.buffers.clap, 1);
+    nextProps.playSound(nextProps.buffers.clap, nextProps.startTime);
   }
 
   render() {
     return <h1>Clap</h1>;
+  }
+}
+
+class Rest extends Component {
+  render() {
+    return <h1>Rest</h1>;
+  }
+}
+
+class Track extends Component {
+  render() {
+    const tempo = 60;
+    const subDivision = 2;
+    const noteOffset = 60 / tempo / subDivision;
+    return (<div>
+      {this.props.children.map((component, index) => {
+        const startTime = index * noteOffset;
+        return React.cloneElement(component, {...component.props, startTime});
+      })}
+      </div>);
   }
 }
 
@@ -43,10 +63,16 @@ class App extends Component {
         <div className="App-header">
           <h2>Welcome to React Tunes</h2>
         </div>
-        <p className="App-intro">
+        <Track>
           <Kick playSound={playSound(context)} {...this.state} />
+          <Rest />
           <Clap playSound={playSound(context)} {...this.state} />
-        </p>
+          <Kick playSound={playSound(context)} {...this.state} />
+          <Kick playSound={playSound(context)} {...this.state} />
+          <Rest />
+          <Clap playSound={playSound(context)} {...this.state} />
+          <Rest />
+        </Track>
       </div>
     );
   }
