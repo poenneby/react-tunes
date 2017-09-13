@@ -32,8 +32,8 @@ class Rest extends Component {
 
 class Track extends Component {
   render() {
-    const tempo = 60;
-    const subDivision = 2;
+    const tempo = 100;
+    const subDivision = this.props.subDivision || 4;
     const noteOffset = 60 / tempo / subDivision;
     return (<div>
       {this.props.children.map((component, index) => {
@@ -63,14 +63,22 @@ class App extends Component {
         <div className="App-header">
           <h2>Welcome to React Tunes</h2>
         </div>
-        <Track>
+        <Track subDivision={4} >
+          <Kick playSound={playSound(context)} {...this.state} />
+          <Rest />
+          <Rest />
+          <Rest />
+          <Clap playSound={playSound(context)} {...this.state} />
+          <Rest />
+          <Rest />
+          <Kick playSound={playSound(context)} {...this.state} />
+          <Rest />
+          <Kick playSound={playSound(context)} {...this.state} />
           <Kick playSound={playSound(context)} {...this.state} />
           <Rest />
           <Clap playSound={playSound(context)} {...this.state} />
-          <Kick playSound={playSound(context)} {...this.state} />
-          <Kick playSound={playSound(context)} {...this.state} />
           <Rest />
-          <Clap playSound={playSound(context)} {...this.state} />
+          <Rest />
           <Rest />
         </Track>
       </div>
