@@ -32,15 +32,32 @@ class Rest extends Component {
 
 class Track extends Component {
   render() {
+    return (
+      <div>
+        {this.props.children}
+      </div>
+    );
+  }
+}
+
+class Repeat extends Component {
+  render() {
     const tempo = 100;
     const notesPerQuarter = this.props.notesPerQuarter || 4;
+    const quartersPerBar = 4;
+    const notesPerBar = notesPerQuarter * quartersPerBar;
     const noteOffset = 60 / tempo / notesPerQuarter;
-    return (<div>
-      {this.props.children.map((component, index) => {
-        const startTime = index * noteOffset;
-        return React.cloneElement(component, {...component.props, startTime});
-      })}
+    const times = this.props.times || 1;
+    const repeats = Array(times).fill().map((time, timeIndex) => {
+      return (<div>
+          {this.props.children.map((component, index) => {
+            const startTime = (noteOffset * (notesPerBar * timeIndex)) + index * noteOffset;
+            return React.cloneElement(component, {...component.props, startTime});
+          })}
       </div>);
+    });
+    console.log("repeats", repeats);
+    return <div>{repeats.map((repeat) => <div>{repeat}</div>)}</div>;
   }
 }
 
@@ -64,22 +81,24 @@ class App extends Component {
           <h2>Welcome to React Tunes</h2>
         </div>
         <Track notesPerQuarter={4} >
-          <Kick playSound={playSound(context)} {...this.state} />
-          <Rest />
-          <Rest />
-          <Rest />
-          <Clap playSound={playSound(context)} {...this.state} />
-          <Rest />
-          <Rest />
-          <Kick playSound={playSound(context)} {...this.state} />
-          <Rest />
-          <Kick playSound={playSound(context)} {...this.state} />
-          <Kick playSound={playSound(context)} {...this.state} />
-          <Rest />
-          <Clap playSound={playSound(context)} {...this.state} />
-          <Rest />
-          <Rest />
-          <Rest />
+          <Repeat times={4}>
+            <Kick playSound={playSound(context)} {...this.state} />
+            <Rest />
+            <Rest />
+            <Rest />
+            <Clap playSound={playSound(context)} {...this.state} />
+            <Rest />
+            <Rest />
+            <Kick playSound={playSound(context)} {...this.state} />
+            <Rest />
+            <Kick playSound={playSound(context)} {...this.state} />
+            <Kick playSound={playSound(context)} {...this.state} />
+            <Rest />
+            <Clap playSound={playSound(context)} {...this.state} />
+            <Rest />
+            <Rest />
+            <Rest />
+          </Repeat>
         </Track>
       </div>
     );
