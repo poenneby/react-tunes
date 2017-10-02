@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import PropTypes from "prop-types";
 import {loadSounds, playSound} from './bufferUtil';
 import './App.css';
 
 class Kick extends Component {
   componentWillReceiveProps(nextProps) {
-    nextProps.playSound(nextProps.buffers.kick, nextProps.startTime);
+    playSound(this.context.audioContext, nextProps.buffers.kick, nextProps.startTime);
   }
 
   render() {
@@ -12,9 +13,13 @@ class Kick extends Component {
   }
 }
 
+Kick.contextTypes = {
+  audioContext : PropTypes.object
+};
+
 class Clap extends Component {
   componentWillReceiveProps(nextProps) {
-    nextProps.playSound(nextProps.buffers.clap, nextProps.startTime);
+    playSound(this.context.audioContext, nextProps.buffers.clap, nextProps.startTime);
   }
 
   render() {
@@ -22,15 +27,23 @@ class Clap extends Component {
   }
 }
 
+Clap.contextTypes = {
+  audioContext : PropTypes.object
+};
+
 class Hihat extends Component {
   componentWillReceiveProps(nextProps) {
-    nextProps.playSound(nextProps.buffers.hihat, nextProps.startTime);
+    playSound(this.context.audioContext, nextProps.buffers.hihat, nextProps.startTime);
   }
 
   render() {
     return <h1>Hihat</h1>;
   }
 }
+
+Hihat.contextTypes = {
+  audioContext : PropTypes.object
+};
 
 class Rest extends Component {
   render() {
@@ -69,9 +82,19 @@ class Repeat extends Component {
 }
 
 class App extends Component {
+
+
+  constructor() {
+    super();
+    this.audioContext = new AudioContext();
+  }
+
+  getChildContext() {
+    return {audioContext : this.audioContext};
+  }
+
   componentDidMount() {
-    const context = new AudioContext();
-    loadSounds(context, {
+    loadSounds(this.audioContext, {
       kick : '/sounds/kick.wav',
       clap : '/sounds/clap.wav',
       hihat : '/sounds/hat_c.wav'
@@ -81,7 +104,6 @@ class App extends Component {
   }
 
   render() {
-    const context = new AudioContext();
     return (
       <div className="App">
         <div className="App-header">
@@ -89,45 +111,49 @@ class App extends Component {
         </div>
         <Repeat times={4}>
           <Track notesPerQuarter={4} >
-            <Kick playSound={playSound(context)} {...this.state} />
+            <Kick {...this.state} />
             <Rest />
             <Rest />
             <Rest />
-            <Clap playSound={playSound(context)} {...this.state} />
+            <Clap {...this.state} />
             <Rest />
             <Rest />
-            <Kick playSound={playSound(context)} {...this.state} />
+            <Kick {...this.state} />
             <Rest />
-            <Kick playSound={playSound(context)} {...this.state} />
-            <Kick playSound={playSound(context)} {...this.state} />
+            <Kick {...this.state} />
+            <Kick {...this.state} />
             <Rest />
-            <Clap playSound={playSound(context)} {...this.state} />
+            <Clap {...this.state} />
             <Rest />
             <Rest />
             <Rest />
           </Track>
           <Track notesPerQuarter={4} >
-            <Hihat playSound={playSound(context)} {...this.state} />
+            <Hihat {...this.state} />
             <Rest />
-            <Hihat playSound={playSound(context)} {...this.state} />
-            <Hihat playSound={playSound(context)} {...this.state} />
-            <Hihat playSound={playSound(context)} {...this.state} />
+            <Hihat {...this.state} />
+            <Hihat {...this.state} />
+            <Hihat {...this.state} />
             <Rest />
-            <Hihat playSound={playSound(context)} {...this.state} />
-            <Hihat playSound={playSound(context)} {...this.state} />
-            <Hihat playSound={playSound(context)} {...this.state} />
+            <Hihat {...this.state} />
+            <Hihat {...this.state} />
+            <Hihat {...this.state} />
             <Rest />
-            <Hihat playSound={playSound(context)} {...this.state} />
-            <Hihat playSound={playSound(context)} {...this.state} />
-            <Hihat playSound={playSound(context)} {...this.state} />
+            <Hihat {...this.state} />
+            <Hihat {...this.state} />
+            <Hihat {...this.state} />
             <Rest />
-            <Hihat playSound={playSound(context)} {...this.state} />
-            <Hihat playSound={playSound(context)} {...this.state} />
+            <Hihat {...this.state} />
+            <Hihat {...this.state} />
           </Track>
         </Repeat>
       </div>
     );
   }
 }
+
+App.childContextTypes = {
+  audioContext : PropTypes.object
+};
 
 export default App;

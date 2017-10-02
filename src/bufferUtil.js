@@ -1,10 +1,8 @@
-export function playSound(audioContext) {
-  return (buffer, time) => {
-    const source = audioContext.createBufferSource();
-    source.buffer = buffer;
-    source.connect(audioContext.destination);
-    source.start(time);
-  }
+export function playSound(audioContext, buffer, time) {
+  const source = audioContext.createBufferSource();
+  source.buffer = buffer;
+  source.connect(audioContext.destination);
+  source.start(time);
 }
 
 export function loadSounds(audioContext, soundMap, callback) {
