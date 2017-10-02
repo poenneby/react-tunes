@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
-import {loadSounds, playSound} from './bufferUtil';
+import {loadSounds, playBuffer} from './bufferUtil';
 import './App.css';
 
 class Kick extends Component {
   componentWillReceiveProps(nextProps) {
-    playSound(this.context.audioContext, nextProps.buffers.kick, nextProps.startTime);
+    const gainNode = this.context.audioContext.createGain();
+    gainNode.gain.value = nextProps.gain || 2;
+    playBuffer(this.context.audioContext, gainNode, nextProps.buffers.kick, nextProps.startTime);
   }
 
   render() {
@@ -19,7 +21,9 @@ Kick.contextTypes = {
 
 class Clap extends Component {
   componentWillReceiveProps(nextProps) {
-    playSound(this.context.audioContext, nextProps.buffers.clap, nextProps.startTime);
+    const gainNode = this.context.audioContext.createGain();
+    gainNode.gain.value = nextProps.gain || 1;
+    playBuffer(this.context.audioContext, gainNode, nextProps.buffers.clap, nextProps.startTime);
   }
 
   render() {
@@ -33,7 +37,9 @@ Clap.contextTypes = {
 
 class Hihat extends Component {
   componentWillReceiveProps(nextProps) {
-    playSound(this.context.audioContext, nextProps.buffers.hihat, nextProps.startTime);
+    const gainNode = this.context.audioContext.createGain();
+    gainNode.gain.value = nextProps.gain || 0.1;
+    playBuffer(this.context.audioContext, gainNode, nextProps.buffers.hihat, nextProps.startTime);
   }
 
   render() {
@@ -109,7 +115,7 @@ class App extends Component {
         <div className="App-header">
           <h2>Welcome to React Tunes</h2>
         </div>
-        <Repeat times={4}>
+        <Repeat times={2}>
           <Track notesPerQuarter={4} >
             <Kick {...this.state} />
             <Rest />
@@ -129,19 +135,19 @@ class App extends Component {
             <Rest />
           </Track>
           <Track notesPerQuarter={4} >
-            <Hihat {...this.state} />
+            <Hihat {...this.state} gain={0.7} />
             <Rest />
             <Hihat {...this.state} />
             <Hihat {...this.state} />
-            <Hihat {...this.state} />
+            <Hihat {...this.state} gain={0.7} />
             <Rest />
             <Hihat {...this.state} />
             <Hihat {...this.state} />
-            <Hihat {...this.state} />
+            <Hihat {...this.state} gain={0.7} />
             <Rest />
             <Hihat {...this.state} />
             <Hihat {...this.state} />
-            <Hihat {...this.state} />
+            <Hihat {...this.state} gain={0.7} />
             <Rest />
             <Hihat {...this.state} />
             <Hihat {...this.state} />
