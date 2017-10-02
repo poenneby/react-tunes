@@ -47,9 +47,9 @@ class Track extends Component {
     const noteOffset = 60 / tempo / notesPerQuarter;
     const repeats = Array(this.props.times).fill().map((time, timeIndex) => {
       return (<div>
-          {this.props.children.map((component, index) => {
+          {React.Children.map(this.props.children, (component, index) => {
             const startTime = (noteOffset * (notesPerBar * timeIndex)) + index * noteOffset;
-            return React.cloneElement(component, {...component.props, startTime});
+            return React.cloneElement(component, {startTime});
           })}
       </div>);
     });
