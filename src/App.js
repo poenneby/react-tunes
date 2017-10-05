@@ -1,61 +1,12 @@
 import React, { Component } from 'react';
-import PropTypes from "prop-types";
-import {loadSounds, playBuffer} from './bufferUtil';
+import PropTypes from 'prop-types';
+import {loadSounds} from './bufferUtil';
 import './App.css';
 
-class Kick extends Component {
-  componentWillReceiveProps(nextProps) {
-    const gainNode = this.context.audioContext.createGain();
-    gainNode.gain.value = nextProps.gain || 2;
-    playBuffer(this.context.audioContext, gainNode, nextProps.buffers.kick, nextProps.startTime);
-  }
-
-  render() {
-    return <h1>Kick</h1>;
-  }
-}
-
-Kick.contextTypes = {
-  audioContext : PropTypes.object
-};
-
-class Clap extends Component {
-  componentWillReceiveProps(nextProps) {
-    const gainNode = this.context.audioContext.createGain();
-    gainNode.gain.value = nextProps.gain || 1;
-    playBuffer(this.context.audioContext, gainNode, nextProps.buffers.clap, nextProps.startTime);
-  }
-
-  render() {
-    return <h1>Clap</h1>;
-  }
-}
-
-Clap.contextTypes = {
-  audioContext : PropTypes.object
-};
-
-class Hihat extends Component {
-  componentWillReceiveProps(nextProps) {
-    const gainNode = this.context.audioContext.createGain();
-    gainNode.gain.value = nextProps.gain || 0.1;
-    playBuffer(this.context.audioContext, gainNode, nextProps.buffers.hihat, nextProps.startTime);
-  }
-
-  render() {
-    return <h1>Hihat</h1>;
-  }
-}
-
-Hihat.contextTypes = {
-  audioContext : PropTypes.object
-};
-
-class Rest extends Component {
-  render() {
-    return <h1>Rest</h1>;
-  }
-}
+import Rest from './Rest.jsx';
+import Kick from './Kick.jsx';
+import Clap from './Clap.jsx';
+import Hihat from './Hihat.jsx';
 
 class Track extends Component {
   render() {
@@ -88,8 +39,6 @@ class Repeat extends Component {
 }
 
 class App extends Component {
-
-
   constructor() {
     super();
     this.audioContext = new AudioContext();
