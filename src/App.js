@@ -7,6 +7,7 @@ import Rest from './Rest.jsx';
 import Kick from './Kick.jsx';
 import Clap from './Clap.jsx';
 import Hihat from './Hihat.jsx';
+import Synth from './Synth.jsx';
 
 class Track extends Component {
   render() {
@@ -65,6 +66,24 @@ class App extends Component {
           <h2>Welcome to React Tunes</h2>
         </div>
         <Repeat times={2}>
+          <Track notesPerQuarter={4}>
+            <Synth {...this.state} note="F4" />
+            <Rest />
+            <Rest />
+            <Rest />
+            <Synth {...this.state} note="G#4" />
+            <Rest />
+            <Rest />
+            <Synth {...this.state} note="F4" />
+            <Rest />
+            <Synth {...this.state} note="F4" />
+            <Synth {...this.state} note="A#4" />
+            <Rest />
+            <Synth {...this.state} note="F4" />
+            <Rest />
+            <Synth {...this.state} note="D#4" />
+            <Rest />
+          </Track>
           <Track notesPerQuarter={4} >
             <Kick {...this.state} />
             <Rest />
