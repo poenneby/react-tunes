@@ -9,12 +9,25 @@ import Clap from './Clap.jsx';
 import Hihat from './Hihat.jsx';
 import Synth from './Synth.jsx';
 
+class Song extends Component {
+  render() {
+    const childrenWithProps = React.Children.map(this.props.children, (child) => {
+      return React.cloneElement(child, {
+        ...child.props,
+        tempo: this.props.tempo || 100
+      })
+    });
+    return <div>{childrenWithProps}</div>;
+  }
+}
+
 class Track extends Component {
   render() {
     const childrenWithProps = React.Children.map(this.props.children, (child) => {
       return React.cloneElement(child, {
         ...this.props,
-        times: this.props.times || 1
+        ...child.props,
+        notesPerQuarter: this.props.notesPerQuarter || 4
       })
     });
     return <div>{childrenWithProps}</div>;
@@ -23,11 +36,10 @@ class Track extends Component {
 
 class Bar extends Component {
   render() {
-    const tempo = 100;
     const notesPerQuarter = this.props.notesPerQuarter || 4;
     const quartersPerBar = 4;
     const notesPerBar = notesPerQuarter * quartersPerBar;
-    const noteOffset = 60 / tempo / notesPerQuarter;
+    const noteOffset = 60 / this.props.tempo / notesPerQuarter;
     const repeats = Array(this.props.times).fill().map((time, timeIndex) => {
       return (<div>
           {React.Children.map(this.props.children, (component, index) => {
@@ -66,8 +78,9 @@ class App extends Component {
         <div className="App-header">
           <h2>Welcome to React Tunes</h2>
         </div>
+        <Song tempo={100}>
           <Track notesPerQuarter={4}>
-            <Bar>
+            <Bar times={1}>
               <Synth {...this.state} note="F4" />
               <Rest />
               <Rest />
@@ -126,6 +139,7 @@ class App extends Component {
               <Hihat {...this.state} />
             </Bar>
           </Track>
+        </Song>
       </div>
     );
   }
