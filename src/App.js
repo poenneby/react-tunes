@@ -11,6 +11,18 @@ import Synth from './Synth.jsx';
 
 class Track extends Component {
   render() {
+    const childrenWithProps = React.Children.map(this.props.children, (child) => {
+      return React.cloneElement(child, {
+        ...this.props,
+        times: this.props.times || 1
+      })
+    });
+    return <div>{childrenWithProps}</div>;
+  }
+}
+
+class Bar extends Component {
+  render() {
     const tempo = 100;
     const notesPerQuarter = this.props.notesPerQuarter || 4;
     const quartersPerBar = 4;
@@ -25,17 +37,6 @@ class Track extends Component {
       </div>);
     });
     return <div>{repeats.map((repeat) => <div>{repeat}</div>)}</div>;
-  }
-}
-
-class Repeat extends Component {
-  render() {
-    const childrenWithProps = React.Children.map(this.props.children, (child) => {
-      return React.cloneElement(child, {
-        times: this.props.times || 1
-      })
-    });
-    return <div>{childrenWithProps}</div>;
   }
 }
 
@@ -65,62 +66,66 @@ class App extends Component {
         <div className="App-header">
           <h2>Welcome to React Tunes</h2>
         </div>
-        <Repeat times={2}>
           <Track notesPerQuarter={4}>
-            <Synth {...this.state} note="F4" />
-            <Rest />
-            <Rest />
-            <Rest />
-            <Synth {...this.state} note="G#4" />
-            <Rest />
-            <Rest />
-            <Synth {...this.state} note="F4" />
-            <Rest />
-            <Synth {...this.state} note="F4" />
-            <Synth {...this.state} note="A#4" />
-            <Rest />
-            <Synth {...this.state} note="F4" />
-            <Rest />
-            <Synth {...this.state} note="D#4" />
-            <Rest />
+            <Bar>
+              <Synth {...this.state} note="F4" />
+              <Rest />
+              <Rest />
+              <Rest />
+              <Synth {...this.state} note="G#4" />
+              <Rest />
+              <Rest />
+              <Synth {...this.state} note="F4" />
+              <Rest />
+              <Synth {...this.state} note="F4" />
+              <Synth {...this.state} note="A#4" />
+              <Rest />
+              <Synth {...this.state} note="F4" />
+              <Rest />
+              <Synth {...this.state} note="D#4" />
+              <Rest />
+            </Bar>
           </Track>
           <Track notesPerQuarter={4} >
-            <Kick {...this.state} />
-            <Rest />
-            <Rest />
-            <Rest />
-            <Clap {...this.state} />
-            <Rest />
-            <Rest />
-            <Kick {...this.state} />
-            <Rest />
-            <Kick {...this.state} />
-            <Kick {...this.state} />
-            <Rest />
-            <Clap {...this.state} />
-            <Rest />
-            <Rest />
-            <Rest />
+            <Bar times={2}>
+              <Kick {...this.state} />
+              <Rest />
+              <Rest />
+              <Rest />
+              <Clap {...this.state} />
+              <Rest />
+              <Rest />
+              <Kick {...this.state} />
+              <Rest />
+              <Kick {...this.state} />
+              <Kick {...this.state} />
+              <Rest />
+              <Clap {...this.state} />
+              <Rest />
+              <Rest />
+              <Rest />
+            </Bar>
           </Track>
           <Track notesPerQuarter={4} >
-            <Hihat {...this.state} gain={0.7} />
-            <Rest />
-            <Hihat {...this.state} />
-            <Hihat {...this.state} />
-            <Hihat {...this.state} gain={0.7} />
-            <Rest />
-            <Hihat {...this.state} />
-            <Hihat {...this.state} />
-            <Hihat {...this.state} gain={0.7} />
-            <Rest />
-            <Hihat {...this.state} />
-            <Hihat {...this.state} />
-            <Hihat {...this.state} gain={0.7} />
-            <Rest />
-            <Hihat {...this.state} />
-            <Hihat {...this.state} />
+            <Bar times={2}>
+              <Hihat {...this.state} gain={0.7} />
+              <Rest />
+              <Hihat {...this.state} />
+              <Hihat {...this.state} />
+              <Hihat {...this.state} gain={0.7} />
+              <Rest />
+              <Hihat {...this.state} />
+              <Hihat {...this.state} />
+              <Hihat {...this.state} gain={0.7} />
+              <Rest />
+              <Hihat {...this.state} />
+              <Hihat {...this.state} />
+              <Hihat {...this.state} gain={0.7} />
+              <Rest />
+              <Hihat {...this.state} />
+              <Hihat {...this.state} />
+            </Bar>
           </Track>
-        </Repeat>
       </div>
     );
   }
