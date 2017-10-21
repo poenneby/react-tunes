@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 
 export default class Rest extends Component {
+  state = {};
+
   render() {
-    return <h1><span role="img" aria-label="rest">💤</span></h1>;
+    return <h2><span role="img" aria-label="rest">    </span></h2>;
   }
 }

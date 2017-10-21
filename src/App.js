@@ -26,15 +26,11 @@ class Track extends Component {
     const {notesPerQuarter} = this.props;
     const quartersPerMinute = 60 / this.props.tempo;
     const notesPerBar = quartersPerMinute * notesPerQuarter;
-    const childrenWithProps = React.Children.map(this.props.children, (child) => {
-      return (<div>
-          {React.Children.map(this.props.children, (component, index) => {
-            const barOffset = notesPerBar * index;
-            return React.cloneElement(component, {barStartTime : barOffset, quartersPerMinute});
-          })}
-      </div>);
+    const childrenWithProps = React.Children.map(this.props.children, (component, index) => {
+      const barOffset = notesPerBar * index;
+      return React.cloneElement(component, {barStartTime : barOffset, quartersPerMinute});
     });
-    return <div>{childrenWithProps}</div>;
+    return <span className="Track">Track: {childrenWithProps}</span>;
   }
 }
 
@@ -46,7 +42,7 @@ class Bar extends Component {
       barStartTime,
     } = this.props;
     const noteLength = quartersPerMinute / notesPerQuarter;
-      return (<div>
+      return (<div className="Bar">
           {React.Children.map(this.props.children, (component, index) => {
             const startTime = (noteLength * index) + barStartTime;
             return React.cloneElement(component, {startTime});
@@ -82,7 +78,7 @@ class App extends Component {
           <h2>Welcome to React Tunes</h2>
         </div>
         <Song tempo={110}>
-          <Track quartersPerBar={4} notesPerQuarter={4}>
+          <Track notesPerQuarter={4}>
             <Bar>
               <Synth {...this.state} note="F4" />
               <Rest />

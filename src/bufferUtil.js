@@ -1,7 +1,8 @@
-export function playBuffer(audioContext, destinationNode, buffer, time) {
+export function playBuffer(audioContext, destinationNode, buffer, time, callback) {
   const source = audioContext.createBufferSource();
   source.buffer = buffer;
   source.connect(destinationNode);
+  source.onended = () => { callback() };
   destinationNode.connect(audioContext.destination);
   source.start(time);
 }
