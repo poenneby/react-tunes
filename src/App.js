@@ -23,12 +23,16 @@ class Song extends Component {
 
 class Track extends Component {
   render() {
+    const {notesPerQuarter} = this.props;
+    const quartersPerMinute = 60 / this.props.tempo;
+    const notesPerBar = quartersPerMinute * notesPerQuarter;
     const childrenWithProps = React.Children.map(this.props.children, (child) => {
-      return React.cloneElement(child, {
-        ...this.props,
-        ...child.props,
-        notesPerQuarter: this.props.notesPerQuarter || 4
-      })
+      return (<div>
+          {React.Children.map(this.props.children, (component, index) => {
+            const barOffset = notesPerBar * index;
+            return React.cloneElement(component, {barStartTime : barOffset, quartersPerMinute});
+          })}
+      </div>);
     });
     return <div>{childrenWithProps}</div>;
   }
@@ -36,19 +40,18 @@ class Track extends Component {
 
 class Bar extends Component {
   render() {
-    const notesPerQuarter = this.props.notesPerQuarter || 4;
-    const quartersPerBar = 4;
-    const notesPerBar = notesPerQuarter * quartersPerBar;
-    const noteOffset = 60 / this.props.tempo / notesPerQuarter;
-    const repeats = Array(this.props.times).fill().map((time, timeIndex) => {
+    const {
+      quartersPerMinute,
+      notesPerQuarter = 4,
+      barStartTime,
+    } = this.props;
+    const noteLength = quartersPerMinute / notesPerQuarter;
       return (<div>
           {React.Children.map(this.props.children, (component, index) => {
-            const startTime = (noteOffset * (notesPerBar * timeIndex)) + index * noteOffset;
+            const startTime = (noteLength * index) + barStartTime;
             return React.cloneElement(component, {startTime});
           })}
       </div>);
-    });
-    return <div>{repeats.map((repeat) => <div>{repeat}</div>)}</div>;
   }
 }
 
@@ -78,9 +81,9 @@ class App extends Component {
         <div className="App-header">
           <h2>Welcome to React Tunes</h2>
         </div>
-        <Song tempo={100}>
-          <Track notesPerQuarter={4}>
-            <Bar times={1}>
+        <Song tempo={110}>
+          <Track quartersPerBar={4} notesPerQuarter={4}>
+            <Bar>
               <Synth {...this.state} note="F4" />
               <Rest />
               <Rest />
@@ -98,9 +101,99 @@ class App extends Component {
               <Synth {...this.state} note="D#4" />
               <Rest />
             </Bar>
+            <Bar>
+              <Synth {...this.state} note="F4" />
+              <Rest />
+              <Rest />
+              <Rest />
+              <Synth {...this.state} note="C5" />
+              <Rest />
+              <Rest />
+              <Synth {...this.state} note="F4" />
+              <Rest />
+              <Synth {...this.state} note="F4" />
+              <Synth {...this.state} note="C#5" />
+              <Rest />
+              <Synth {...this.state} note="C5" />
+              <Rest />
+              <Synth {...this.state} note="G#4" />
+              <Rest />
+            </Bar>
+            <Bar>
+              <Synth {...this.state} note="F4" />
+              <Rest />
+              <Synth {...this.state} note="C5" />
+              <Rest />
+              <Synth {...this.state} note="F5" />
+              <Rest />
+              <Synth {...this.state} note="F4" />
+              <Synth {...this.state} note="D#4" />
+              <Rest />
+              <Synth {...this.state} note="D#4" />
+              <Synth {...this.state} note="C4" />
+              <Rest />
+              <Synth {...this.state} note="G4" />
+              <Rest />
+              <Synth {...this.state} note="F4" />
+              <Rest />
+            </Bar>
           </Track>
-          <Track notesPerQuarter={4} >
-            <Bar times={2}>
+          <Track quartersPerBar={4} notesPerQuarter={4}>
+            <Bar>
+              <Kick {...this.state} />
+              <Rest />
+              <Rest />
+              <Rest />
+              <Clap {...this.state} />
+              <Rest />
+              <Rest />
+              <Kick {...this.state} />
+              <Rest />
+              <Kick {...this.state} />
+              <Kick {...this.state} />
+              <Rest />
+              <Clap {...this.state} />
+              <Rest />
+              <Rest />
+              <Rest />
+            </Bar>
+            <Bar>
+              <Kick {...this.state} />
+              <Rest />
+              <Rest />
+              <Rest />
+              <Clap {...this.state} />
+              <Rest />
+              <Rest />
+              <Kick {...this.state} />
+              <Rest />
+              <Kick {...this.state} />
+              <Kick {...this.state} />
+              <Rest />
+              <Clap {...this.state} />
+              <Rest />
+              <Rest />
+              <Rest />
+            </Bar>
+            <Bar>
+              <Kick {...this.state} />
+              <Rest />
+              <Rest />
+              <Rest />
+              <Clap {...this.state} />
+              <Rest />
+              <Rest />
+              <Kick {...this.state} />
+              <Rest />
+              <Kick {...this.state} />
+              <Kick {...this.state} />
+              <Rest />
+              <Clap {...this.state} />
+              <Rest />
+              <Rest />
+              <Rest />
+            </Bar>
+            <Bar>
               <Kick {...this.state} />
               <Rest />
               <Rest />
@@ -119,8 +212,62 @@ class App extends Component {
               <Rest />
             </Bar>
           </Track>
-          <Track notesPerQuarter={4} >
-            <Bar times={2}>
+          <Track quartersPerBar={4} notesPerQuarter={4}>
+            <Bar>
+              <Hihat {...this.state} gain={0.7} />
+              <Rest />
+              <Hihat {...this.state} />
+              <Hihat {...this.state} />
+              <Hihat {...this.state} gain={0.7} />
+              <Rest />
+              <Hihat {...this.state} />
+              <Hihat {...this.state} />
+              <Hihat {...this.state} gain={0.7} />
+              <Rest />
+              <Hihat {...this.state} />
+              <Hihat {...this.state} />
+              <Hihat {...this.state} gain={0.7} />
+              <Rest />
+              <Hihat {...this.state} />
+              <Hihat {...this.state} />
+            </Bar>
+            <Bar>
+              <Hihat {...this.state} gain={0.7} />
+              <Rest />
+              <Hihat {...this.state} />
+              <Hihat {...this.state} />
+              <Hihat {...this.state} gain={0.7} />
+              <Rest />
+              <Hihat {...this.state} />
+              <Hihat {...this.state} />
+              <Hihat {...this.state} gain={0.7} />
+              <Rest />
+              <Hihat {...this.state} />
+              <Hihat {...this.state} />
+              <Hihat {...this.state} gain={0.7} />
+              <Rest />
+              <Hihat {...this.state} />
+              <Hihat {...this.state} />
+            </Bar>
+            <Bar>
+              <Hihat {...this.state} gain={0.7} />
+              <Rest />
+              <Hihat {...this.state} />
+              <Hihat {...this.state} />
+              <Hihat {...this.state} gain={0.7} />
+              <Rest />
+              <Hihat {...this.state} />
+              <Hihat {...this.state} />
+              <Hihat {...this.state} gain={0.7} />
+              <Rest />
+              <Hihat {...this.state} />
+              <Hihat {...this.state} />
+              <Hihat {...this.state} gain={0.7} />
+              <Rest />
+              <Hihat {...this.state} />
+              <Hihat {...this.state} />
+            </Bar>
+            <Bar>
               <Hihat {...this.state} gain={0.7} />
               <Rest />
               <Hihat {...this.state} />

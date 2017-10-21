@@ -11,7 +11,7 @@ export default class Hihat extends Component {
   }
 
   render() {
-    return <h1>Hihat</h1>;
+    return <h1>{`<Hihat>`}</h1>;
   }
 }
 

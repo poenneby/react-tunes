@@ -10,7 +10,7 @@ export default class Kick extends Component {
   }
 
   render() {
-    return <h1>Kick</h1>;
+    return <h1><span role="img" aria-label="kick">👢</span></h1>;
   }
 }
 

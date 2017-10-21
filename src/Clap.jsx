@@ -10,7 +10,7 @@ export default class Clap extends Component {
   }
 
   render() {
-    return <h1>Clap</h1>;
+    return <h1><span role="img" aria-label="clap">👏</span></h1>;
   }
 }
 

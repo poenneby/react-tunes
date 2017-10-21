@@ -16,11 +16,12 @@ export default class Synth extends Component {
     panner.connect(gain);
     osc.connect(panner);
     osc.start(nextProps.startTime);
+    console.log("startTime", nextProps.startTime);
     osc.stop(nextProps.startTime + 0.23);
   }
 
   render() {
-    return <h1>Synth</h1>;
+    return <h1>{this.props.note}</h1>;
   }
 }
 
