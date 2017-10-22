@@ -8,6 +8,9 @@ import Kick from './Kick.jsx';
 import Clap from './Clap.jsx';
 import Hihat from './Hihat.jsx';
 import Synth from './Synth.jsx';
+import MoogBass from './MoogBass.jsx';
+
+const ONE_SECOND = 1;
 
 class Song extends Component {
   render() {
@@ -27,7 +30,7 @@ class Track extends Component {
     const quartersPerMinute = 60 / this.props.tempo;
     const notesPerBar = quartersPerMinute * notesPerQuarter;
     const childrenWithProps = React.Children.map(this.props.children, (component, index) => {
-      const barOffset = notesPerBar * index;
+      const barOffset = ONE_SECOND + notesPerBar * index;
       return React.cloneElement(component, {barStartTime : barOffset, quartersPerMinute});
     });
     return <span className="Track">Track: {childrenWithProps}</span>;
@@ -78,6 +81,80 @@ class App extends Component {
           <h2>Welcome to React Tunes</h2>
         </div>
         <Song tempo={110}>
+          <Track notesPerQuarter={4}>
+            <Bar>
+              <MoogBass {...this.state} note="F2" />
+              <Rest />
+              <Rest />
+              <Rest />
+              <MoogBass {...this.state} note="F3" />
+              <Rest />
+              <Rest />
+              <MoogBass {...this.state} note="D#2" />
+              <Rest />
+              <MoogBass {...this.state} note="D#3" />
+              <MoogBass {...this.state} note="C2" />
+              <Rest />
+              <MoogBass {...this.state} note="C3" />
+              <Rest />
+              <MoogBass {...this.state} note="D#2" />
+              <Rest />
+            </Bar>
+            <Bar>
+              <MoogBass {...this.state} note="F2" />
+              <Rest />
+              <Rest />
+              <Rest />
+              <MoogBass {...this.state} note="F3" />
+              <Rest />
+              <Rest />
+              <Rest />
+              <Rest />
+              <MoogBass {...this.state} note="C2" />
+              <MoogBass {...this.state} note="C3" />
+              <Rest />
+              <MoogBass {...this.state} note="D#3" />
+              <Rest />
+              <MoogBass {...this.state} note="F3" />
+              <Rest />
+            </Bar>
+            <Bar>
+              <MoogBass {...this.state} note="C#2" />
+              <Rest />
+              <Rest />
+              <Rest />
+              <MoogBass {...this.state} note="C#3" />
+              <Rest />
+              <Rest />
+              <MoogBass {...this.state} note="D#2" />
+              <Rest />
+              <MoogBass {...this.state} note="D#3" />
+              <MoogBass {...this.state} note="C2" />
+              <Rest />
+              <MoogBass {...this.state} note="C3" />
+              <Rest />
+              <MoogBass {...this.state} note="D#2" />
+              <Rest />
+            </Bar>
+            <Bar>
+              <MoogBass {...this.state} note="F3" />
+              <Rest />
+              <Rest />
+              <Rest />
+              <Rest />
+              <Rest />
+              <Rest />
+              <Rest />
+              <Rest />
+              <MoogBass {...this.state} note="D#3" />
+              <MoogBass {...this.state} note="C3" />
+              <Rest />
+              <MoogBass {...this.state} note="A#2" />
+              <Rest />
+              <MoogBass {...this.state} note="G#2" />
+              <Rest />
+            </Bar>
+          </Track>
           <Track notesPerQuarter={4}>
             <Bar>
               <Synth {...this.state} note="F4" />
