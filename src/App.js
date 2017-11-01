@@ -6,7 +6,11 @@ import './App.css';
 import Track from './Track';
 import BassLine from './BassLine';
 import SynthLine from './SynthLine';
-import DrumLine from './DrumLine';
+import IntroDrumLine from './IntroDrumLine';
+import MainDrumLine from './MainDrumLine';
+import HihatLine from './HihatLine';
+import FourBarsRest from './FourBarsRest';
+import ClapLine from './ClapLine';
 
 class Song extends Component {
   render() {
@@ -35,6 +39,7 @@ class App extends Component {
     loadSounds(this.audioContext, {
       kick : '/sounds/kick.wav',
       clap : '/sounds/clap.wav',
+      snare : '/sounds/snare.wav',
       hihat : '/sounds/hat_c.wav'
     }).then((buffers) => {
       this.setState({buffers});
@@ -52,14 +57,42 @@ class App extends Component {
           <Track notesPerQuarter={4}>
             <SynthLine {...this.state} />
             <SynthLine {...this.state} />
+            <FourBarsRest />
+            <FourBarsRest />
+            <SynthLine {...this.state} />
+            <SynthLine {...this.state} />
           </Track>
           <Track notesPerQuarter={4}>
+            <FourBarsRest />
+            <FourBarsRest />
+            <BassLine {...this.state} />
+            <BassLine {...this.state} />
             <BassLine {...this.state} />
             <BassLine {...this.state} />
           </Track>
           <Track notesPerQuarter={4}>
-            <DrumLine {...this.state} />
-            <DrumLine {...this.state} />
+            <FourBarsRest />
+            <FourBarsRest />
+            <IntroDrumLine {...this.state} />
+            <IntroDrumLine {...this.state} />
+            <MainDrumLine {...this.state} />
+            <MainDrumLine {...this.state} />
+          </Track>
+          <Track notesPerQuarter={4}>
+            <FourBarsRest />
+            <FourBarsRest />
+            <HihatLine {...this.state} />
+            <HihatLine {...this.state} />
+            <HihatLine {...this.state} />
+            <HihatLine {...this.state} />
+          </Track>
+          <Track notesPerQuarter={4}>
+            <FourBarsRest />
+            <FourBarsRest />
+            <ClapLine {...this.state} />
+            <ClapLine {...this.state} />
+            <ClapLine {...this.state} />
+            <ClapLine {...this.state} />
           </Track>
         </Song>
       </div>
