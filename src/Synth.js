@@ -33,7 +33,7 @@ export default class Synth extends Component {
   }
 
   render() {
-    return this.state.hasPlayed ? <h2>{this.props.note}</h2> : null;
+    return this.state.hasPlayed ? <p className="note">{this.props.note}</p> : null;
   }
 }
 

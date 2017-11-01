@@ -10,7 +10,7 @@ export default class Track extends Component {
       const sectionStartTime = notesPerSection * index;
       return React.cloneElement(component, {sectionStartTime, quartersPerMinute, notesPerQuarter});
     });
-    return <span className="Track">Track: {childrenWithProps}</span>;
+    return <span className="Track">{this.props.trackName}: {childrenWithProps}</span>;
   }
 }
 

@@ -12,7 +12,7 @@ export default class Clap extends Component {
   }
 
   render() {
-    return this.state.hasPlayed ? <h1><span role="img" aria-label="clap">👏</span></h1> : null;
+    return this.state.hasPlayed ? <p className="note"><span role="img" aria-label="clap">👏</span></p> : null;
   }
 }
 

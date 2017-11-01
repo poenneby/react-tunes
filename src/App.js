@@ -54,7 +54,7 @@ class App extends Component {
           <h2>Welcome to React Tunes</h2>
         </div>
         <Song tempo={110}>
-          <Track notesPerQuarter={4}>
+          <Track trackName="Synth" notesPerQuarter={4}>
             <SynthLine {...this.state} />
             <SynthLine {...this.state} />
             <FourBarsRest />
@@ -62,7 +62,7 @@ class App extends Component {
             <SynthLine {...this.state} />
             <SynthLine {...this.state} />
           </Track>
-          <Track notesPerQuarter={4}>
+          <Track trackName="Bass" notesPerQuarter={4}>
             <FourBarsRest />
             <FourBarsRest />
             <BassLine {...this.state} />
@@ -70,7 +70,7 @@ class App extends Component {
             <BassLine {...this.state} />
             <BassLine {...this.state} />
           </Track>
-          <Track notesPerQuarter={4}>
+          <Track trackName="Drums" notesPerQuarter={4}>
             <FourBarsRest />
             <FourBarsRest />
             <IntroDrumLine {...this.state} />
@@ -78,7 +78,7 @@ class App extends Component {
             <MainDrumLine {...this.state} />
             <MainDrumLine {...this.state} />
           </Track>
-          <Track notesPerQuarter={4}>
+          <Track trackName="Hihat" notesPerQuarter={4}>
             <FourBarsRest />
             <FourBarsRest />
             <HihatLine {...this.state} />
@@ -86,7 +86,7 @@ class App extends Component {
             <HihatLine {...this.state} />
             <HihatLine {...this.state} />
           </Track>
-          <Track notesPerQuarter={4}>
+          <Track trackName="Claps" notesPerQuarter={4}>
             <FourBarsRest />
             <FourBarsRest />
             <ClapLine {...this.state} />
