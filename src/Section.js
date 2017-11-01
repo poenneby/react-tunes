@@ -8,10 +8,11 @@ export default class Section extends Component {
       sectionStartTime,
     } = this.props;
     const notesPerBar = quartersPerMinute * notesPerQuarter;
+    const {children, ...propsWithoutChildren} = this.props;
     return (<div className="Section">
       {React.Children.map(this.props.children, (component, index) => {
         const barStartTime = (notesPerBar * index) + sectionStartTime;
-        return React.cloneElement(component, {barStartTime, notesPerQuarter, quartersPerMinute});
+        return React.cloneElement(component, {...propsWithoutChildren, barStartTime, notesPerQuarter, quartersPerMinute});
       })}
       </div>);
   }

@@ -50,12 +50,12 @@ class App extends Component {
         </div>
         <Song tempo={110}>
           <Track notesPerQuarter={4}>
-            <BassLine {...this.state} />
-            <BassLine {...this.state} />
+            <SynthLine {...this.state} />
+            <SynthLine {...this.state} />
           </Track>
           <Track notesPerQuarter={4}>
-            <SynthLine {...this.state} />
-            <SynthLine {...this.state} />
+            <BassLine {...this.state} />
+            <BassLine {...this.state} />
           </Track>
           <Track notesPerQuarter={4}>
             <DrumLine {...this.state} />

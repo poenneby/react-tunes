@@ -11,7 +11,7 @@ export default class DrumLine extends Component {
     return (
       <Section {...this.props}>
         <Bar>
-          <Kick {...this.props} />
+          <Kick />
           <Rest />
           <Rest />
           <Rest />
