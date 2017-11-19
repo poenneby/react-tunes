@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {freq} from 'note-parser';
+import contour from 'audio-contour';
 import Tuna from 'tunajs';
 
 export default class Synth extends Component {
   state = {};
 
   componentWillReceiveProps(nextProps) {
+    // REFACTOR!!!
     const {audioContext} = this.context;
+    const {noteLength, length = 1} = nextProps;
     const osc = audioContext.createOscillator();
     const gain = audioContext.createGain();
 
@@ -23,13 +26,32 @@ export default class Synth extends Component {
 
     gain.gain.value = 0.5;
     osc.type = 'sawtooth';
+    osc.detune.value = -1;
     osc.onended = () => this.setState({hasPlayed : true});
     osc.frequency.value = freq(this.props.note);
-    gain.connect(delay);
-    osc.connect(gain);
-    delay.connect(audioContext.destination);
+    const biquadFilter = audioContext.createBiquadFilter();
+    biquadFilter.type = 'lowpass';
+    biquadFilter.frequency.value = 3644;
+    const env = contour(this.context.audioContext, {
+      attack: 0.01,
+      decay: 0.5,
+      sustain: 0.15,
+      release: 0.5,
+    });
+
+    env.connect(gain.gain);
+
+    osc.connect(biquadFilter);
+    biquadFilter.connect(delay);
+    delay.connect(gain);
+    const compressor = audioContext.createDynamicsCompressor();
+    // gain.connect(audioContext.destination);
+    gain.connect(compressor);
+    compressor.connect(audioContext.destination);
+    env.start(nextProps.startTime);
     osc.start(nextProps.startTime);
-    osc.stop(nextProps.startTime + 0.23);
+    env.stop(nextProps.startTime + (noteLength * length));
+    osc.stop(nextProps.startTime + (noteLength * length));
   }
 
   render() {

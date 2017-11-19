@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-const START_DELAY = 0.3;
+const START_DELAY = 0.7;
 
 export default class Track extends Component {
   render() {
