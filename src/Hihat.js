@@ -13,7 +13,7 @@ export default class Hihat extends Component {
   }
 
   render() {
-    return this.state.hasPlayed ? <p className="note"><span role="img" aria-label="hihat">🎩</span></p> : null;
+    return this.state.hasPlayed ? <p className="note" style={{position: 'relative', bottom: this.props.gain + 'em'}}><span role="img" aria-label="hihat">🎩</span></p> : null;
   }
 }
 

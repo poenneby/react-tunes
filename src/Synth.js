@@ -8,11 +8,18 @@ export default class Synth extends Component {
   state = {};
 
   componentWillReceiveProps(nextProps) {
-    // REFACTOR!!!
     const {audioContext} = this.context;
     const {noteLength, length = 1} = nextProps;
     const osc = audioContext.createOscillator();
+    osc.type = 'sawtooth';
+    osc.detune.value = -1;
+    osc.onended = () => this.setState({hasPlayed : true});
+    osc.frequency.value = freq(this.props.note);
+
     const gain = audioContext.createGain();
+    gain.gain.value = 0.5;
+
+    const compressor = audioContext.createDynamicsCompressor();
 
     const tuna = new Tuna(audioContext);
     const delay = new tuna.Delay({
@@ -24,14 +31,10 @@ export default class Synth extends Component {
       bypass: 0
     });
 
-    gain.gain.value = 0.5;
-    osc.type = 'sawtooth';
-    osc.detune.value = -1;
-    osc.onended = () => this.setState({hasPlayed : true});
-    osc.frequency.value = freq(this.props.note);
     const biquadFilter = audioContext.createBiquadFilter();
     biquadFilter.type = 'lowpass';
     biquadFilter.frequency.value = 3644;
+
     const env = contour(this.context.audioContext, {
       attack: 0.01,
       decay: 0.5,
@@ -39,15 +42,15 @@ export default class Synth extends Component {
       release: 0.5,
     });
 
-    env.connect(gain.gain);
 
     osc.connect(biquadFilter);
     biquadFilter.connect(delay);
     delay.connect(gain);
-    const compressor = audioContext.createDynamicsCompressor();
-    // gain.connect(audioContext.destination);
+    env.connect(gain.gain);
     gain.connect(compressor);
     compressor.connect(audioContext.destination);
+
+
     env.start(nextProps.startTime);
     osc.start(nextProps.startTime);
     env.stop(nextProps.startTime + (noteLength * length));
