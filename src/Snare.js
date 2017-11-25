@@ -6,9 +6,11 @@ export default class Snare extends Component {
   state = {};
 
   componentWillReceiveProps(nextProps) {
-    const gainNode = this.context.audioContext.createGain();
-    gainNode.gain.value = nextProps.gain || 2;
-    playBuffer(this.context.audioContext, gainNode, nextProps.buffers.snare, nextProps.startTime, () => { this.setState({hasPlayed : true}) });
+    const {audioContext} = this.context;
+    const {buffers, gain = 2, startTime} = nextProps;
+    const gainNode = audioContext.createGain();
+    gainNode.gain.value = gain;
+    playBuffer(audioContext, gainNode, buffers.snare, startTime, () => { this.setState({hasPlayed : true}) });
   }
 
   render() {

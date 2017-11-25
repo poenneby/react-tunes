@@ -6,9 +6,11 @@ export default class Clap extends Component {
   state = {};
 
   componentWillReceiveProps(nextProps) {
-    const gainNode = this.context.audioContext.createGain();
-    gainNode.gain.value = nextProps.gain || 1;
-    playBuffer(this.context.audioContext, gainNode, nextProps.buffers.clap, nextProps.startTime, () => { this.setState({hasPlayed : true}) });
+    const {audioContext} = this.context;
+    const {gain = 1, buffers, startTime} = nextProps;
+    const gainNode = audioContext.createGain();
+    gainNode.gain.value = gain;
+    playBuffer(audioContext, gainNode, buffers.clap, startTime, () => { this.setState({hasPlayed : true}) });
   }
 
   render() {

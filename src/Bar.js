@@ -5,14 +5,15 @@ export default class Bar extends Component {
     const {
       quartersPerMinute,
       notesPerQuarter = 4,
+      children,
       barStartTime,
+      ...rest
     } = this.props;
     const noteLength = quartersPerMinute / notesPerQuarter;
-    const {children, ...propsWithoutChildren} = this.props;
       return (<div className="Bar">
           {React.Children.map(this.props.children, (component, index) => {
             const startTime = (noteLength * index) + barStartTime;
-            return React.cloneElement(component, {...propsWithoutChildren, startTime, noteLength});
+            return React.cloneElement(component, {...rest, startTime, noteLength});
           })}
       </div>);
   }

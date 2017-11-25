@@ -9,12 +9,12 @@ export default class Synth extends Component {
 
   componentWillReceiveProps(nextProps) {
     const {audioContext} = this.context;
-    const {noteLength, length = 1} = nextProps;
+    const {note, noteLength, length = 1} = nextProps;
     const osc = audioContext.createOscillator();
     osc.type = 'sawtooth';
     osc.detune.value = -1;
     osc.onended = () => this.setState({hasPlayed : true});
-    osc.frequency.value = freq(this.props.note);
+    osc.frequency.value = freq(note);
 
     const gain = audioContext.createGain();
     gain.gain.value = 0.5;

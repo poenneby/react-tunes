@@ -6,9 +6,11 @@ export default class Kick extends Component {
   state = {hasPlayed : false};
 
   componentWillReceiveProps(nextProps) {
-    const gainNode = this.context.audioContext.createGain();
+    const {audioContext} = this.context;
+    const {buffers, startTime} = nextProps;
+    const gainNode = audioContext.createGain();
     gainNode.gain.value = nextProps.gain || 2;
-    playBuffer(this.context.audioContext, gainNode, nextProps.buffers.kick, nextProps.startTime, () => { this.setState({hasPlayed : !this.state.hasPlayed}) });
+    playBuffer(audioContext, gainNode, buffers.kick, startTime, () => { this.setState({hasPlayed : !this.state.hasPlayed}) });
   }
 
   render() {

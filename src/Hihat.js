@@ -7,9 +7,11 @@ export default class Hihat extends Component {
   state = {};
 
   componentWillReceiveProps(nextProps) {
-    const gainNode = this.context.audioContext.createGain();
-    gainNode.gain.value = nextProps.gain || 0.1;
-    playBuffer(this.context.audioContext, gainNode, nextProps.buffers.hihat, nextProps.startTime, () => {this.setState({hasPlayed : true})});
+    const {audioContext} = this.context;
+    const {gain = 0.1, buffers, startTime} = nextProps;
+    const gainNode = audioContext.createGain();
+    gainNode.gain.value = gain;
+    playBuffer(audioContext, gainNode, buffers.hihat, startTime, () => {this.setState({hasPlayed : true})});
   }
 
   render() {
